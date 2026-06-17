@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup Form</title>
+</head>
+<body>
+
+<h2>ثبت نام</h2>
+
+<form id="signupForm">
+  <input type="text" id="first_name" placeholder="نام" required><br><br>
+  <input type="text" id="last_name" placeholder="نام خانوادگی" required><br><br>
+  <input type="text" id="username" placeholder="نام کاربری" required><br><br>
+  <input type="password" id="password" placeholder="پسورد" required><br><br>
+  <button type="submit">ثبت</button>
+  </form>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script>
+const supabase = window.supabase.createClient(
+  "YOUR_URL",
+  "YOUR_ANON_KEY"
+);
+
+document.getElementById("signupForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const first_name = document.getElementById("first_name").value;
+  const last_name = document.getElementById("last_name").value;
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  const { data, error } = await supabase
+    .from("users")
+    .insert([
+      { first_name, last_name, username, password }
+    ]);
+
+  if (error) {
+    alert("خطا: " + error.message);
+  } else {
+    alert("ثبت شد ✅");
+  }
+});
+</script>
+
+</body>
+</html>
